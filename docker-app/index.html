@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AwilTech | AWS DevOps Project</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f6f9;
+            color: #222;
+        }
+
+        /* NAV */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: #232f3e;
+            color: white;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+        }
+
+        /* HERO */
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #232f3e, #1f5faa);
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .tag {
+            opacity: 0.9;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 20px;
+            background: #ff9900;
+            color: black;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* CONTAINER */
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        /* ARCHITECTURE */
+        .architecture {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+
+        .diagram {
+            font-size: 1.1rem;
+            line-height: 2;
+            margin-top: 20px;
+        }
+
+        /* CARDS */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .icon {
+            font-size: 2rem;
+        }
+
+        /* SUCCESS */
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            margin-top: 30px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <div class="logo"><strong>AwilTech</strong></div>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Project</a></li>
+            <li><a href="#">Tech</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <p class="tag">Cloud · DevOps · AWS · CI/CD</p>
+        <h2>Awil's DevOps Project</h2>
+        <h1>AWS ECS Fargate Deployment</h1>
+        <p>Containerised application deployed using GitHub Actions, ECR, ECS, and ALB</p>
+        <a href="#architecture" class="btn">View Architecture</a>
+    </section>
+
+    <div class="container">
+
+        <!-- ARCHITECTURE -->
+        <section id="architecture" class="architecture">
+            <h2>🚀 Project Architecture</h2>
+
+            <div class="diagram">
+                🌐 Internet<br>↓<br>
+                ⚖️ Application Load Balancer (ALB)<br>↓<br>
+                🐳 ECS Fargate Service<br>↓<br>
+                📦 Docker Container (Nginx App)<br>↓<br>
+                🗂️ Amazon ECR (Image Registry)<br><br>
+
+                ⚙️ CI/CD: GitHub Actions → Build → Push → Deploy ⚙️
+            </div>
+        </section>
+
+        <!-- TECH STACK -->
+        <section class="cards">
+
+            <div class="card">
+                <div class="icon">☁️</div>
+                <h3>AWS ECS</h3>
+                <p>Serverless container orchestration using Fargate.</p>
+            </div>
+
+            <div class="card">
+                <div class="icon">⚙️</div>
+                <h3>CI/CD</h3>
+                <p>Automated deployment using GitHub Actions pipelines.</p>
+            </div>
+
+            <div class="card">
+                <div class="icon">🐳</div>
+                <h3>Docker</h3>
+                <p>Containerised Nginx web application.</p>
+            </div>
+
+            <div class="card">
+                <div class="icon">🔐</div>
+                <h3>Security</h3>
+                <p>IAM roles, security groups, and isolated networking.</p>
+            </div>
+
+            <div class="card">
+                <div class="icon">💻</div>
+                <h3>VS Code</h3>
+                <p>Primary development environment for building and testing the app.</p>
+            </div>
+
+            <div class="card">
+                <div class="icon">🐧</div>
+                <h3>Linux</h3>
+                <p>Used for container runtime, CI/CD agents, and cloud environments.</p>
+            </div>
+
+        </section>
+
+        <!-- SUCCESS -->
+        <div class="success">
+            ✅ Deployment Successful on AWS ECS Fargate via ALB
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        © 2026 AwilTech · Built with AWS, Docker & GitHub Actions
+    </footer>
+
+</body>
+
+</html>
