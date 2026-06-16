@@ -1,5 +1,5 @@
 # Terraform files to be excluded
-**/.terraform//.terraform/
+**/.terraform/
 *.tfstate
 *.tfstate.*
 crash.log
