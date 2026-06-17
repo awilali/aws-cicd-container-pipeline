@@ -2,7 +2,8 @@
 # S3 Bucket resource
 
 resource "aws_s3_bucket" "tf_state" {
-  bucket = "devops-project-s3bucket-eleanor"
+  bucket        = "devops-project-s3bucket-eleanor"
+  force_destroy = true
 }
 
 resource "aws_s3_bucket_versioning" "versioning" {
