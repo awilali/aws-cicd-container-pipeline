@@ -1,8 +1,10 @@
 name: Deploy to EC2 via ECR
 
 on:
+  workflow_dispatch:
   push:
     branches: ["main"]
+    paths: ["docker-app/**"]
 
 env:
   ECR_REPOSITORY: my-app
