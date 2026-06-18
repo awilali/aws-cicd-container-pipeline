@@ -34,7 +34,7 @@ jobs:
       # 3. Build image
       - name: Build Docker image
         run: |
-          docker build -t $ECR_REPOSITORY:$IMAGE_TAG .
+          docker build -t $ECR_REPOSITORY:$IMAGE_TAG ./docker-app
 
       # 4. Tag image for ECR
       - name: Tag image
