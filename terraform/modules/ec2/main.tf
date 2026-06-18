@@ -46,7 +46,9 @@ resource "aws_iam_instance_profile" "ec2_profile" {
 # ECR Resource
 
 resource "aws_ecr_repository" "app" {
-  name = "my-app"
+  name         = "my-app"
+  force_delete = true
+
 
   image_scanning_configuration {
     scan_on_push = true
