@@ -79,3 +79,5 @@ jobs:
 
       - name: Show EC2 Public IP
         run: terraform output ec2_public_ip
+
+        #
