@@ -9,11 +9,11 @@ on:
   pull_request:
     branches: [main]
     paths: ["terraform/**"]
-    
+
 permissions:
   id-token: write
   contents: read
-  
+
 jobs:
   plan:
     name: Terraform Plan
@@ -70,9 +70,8 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-2
+          role-to-assume: arn:aws:iam::565393030819:role/Github-Actions
+          aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Terraform Init
         run: terraform init
