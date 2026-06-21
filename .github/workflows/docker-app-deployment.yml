@@ -6,9 +6,10 @@ on:
     branches: ["main"]
     paths: ["docker-app/**"]
 
+    # This block uses the below 'role-to-assume' which  OIDC and repository access.
 permissions:
-  id-token: write
-  contents: read
+  id-token: write # allows GitHub to generate OIDC token for AWS login
+  contents: read # allows workflow to access your repo code
 
 env:
   ECR_REPOSITORY: my-app
