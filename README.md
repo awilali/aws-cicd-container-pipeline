@@ -12,6 +12,7 @@ This project demonstrates a fully automated CI/CD pipeline deploying a Dockerize
 
 It showcases real-world DevOps practices including Infrastructure as Code, containerization, and secure cloud deployment workflows.
 
+```text
 ⚙️ How It Works
 1. Infrastructure Provisioning (Terraform)
 - Creates VPC, subnets, security groups
@@ -30,6 +31,7 @@ It showcases real-world DevOps practices including Infrastructure as Code, conta
 - EC2 pulls latest image from ECR
 - Runs container using Docker
 - Application is exposed via EC2 public IP
+```
 
 🧰 Tech Stack
 - Terraform (Infrastructure as Code)
