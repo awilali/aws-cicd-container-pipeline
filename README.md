@@ -2,48 +2,101 @@
 
 ![Architecture Diagram](images/project-architecture.jpg)
 
-# Docker-on-EC2 CI/CD with Terraform & GitHub Actions
+# CI/CD Pipeline for Containerized App on AWS EC2 using Terraform & GitHub Actions
 
-This project demonstrates a complete cloud-native CI/CD pipeline using Terraform, AWS, Docker, and GitHub Actions with secure OIDC authentication.
+The system automates infrastructure provisioning and application deployment from GitHub to AWS using Terraform and GitHub Actions.
 
 ## Overview
 
-The project automates the provisioning of AWS infrastructure and deployment of a Dockerized application to EC2 using a fully automated CI/CD pipeline.
+This project demonstrates a fully automated CI/CD pipeline deploying a Dockerized application to AWS EC2 using Terraform and GitHub Actions with secure OIDC authentication (no long-lived credentials).
 
-Infrastructure is defined using Terraform modules, and deployments are triggered via GitHub Actions without the use of long-lived AWS credentials.
+It showcases real-world DevOps practices including Infrastructure as Code, containerization, and secure cloud deployment workflows.
 
-## Architecture
+⚙️ How It Works
+1. Infrastructure Provisioning (Terraform)
+- Creates VPC, subnets, security groups
+- Provisions EC2 instance
+- Sets up ECR repository
+- Configures IAM roles and policies
+- Stores Terraform state in S3 with DynamoDB locking
 
-- Developer pushes code to GitHub
-- GitHub Actions triggers CI/CD pipeline
-- AWS authentication is handled securely using OIDC
-- Terraform provisions AWS infrastructure (VPC, EC2, ECR, IAM)
-- Docker image is built and pushed to Amazon ECR
-- EC2 instance pulls image from ECR and runs the container
-- Terraform state is stored in S3 with DynamoDB locking
+2. CI/CD Pipeline (GitHub Actions)
+- Triggered on push to main
+- Authenticates to AWS using OIDC
+- Builds Docker image
+- Pushes image to Amazon ECR
 
-## Key Features
+3. Deployment
+- EC2 pulls latest image from ECR
+- Runs container using Docker
+- Application is exposed via EC2 public IP
 
-- Infrastructure as Code using Terraform
-- Modular architecture (VPC, EC2, Security Groups)
-- GitHub Actions CI/CD pipeline
-- AWS OIDC authentication (no access keys)
-- Docker containerized application deployment
-- Amazon ECR for image storage
-- EC2-based container runtime
-- Remote Terraform backend (S3 + DynamoDB)
-
-## Tech Stack
-
-- Terraform
+🧰 Tech Stack
+- Terraform (Infrastructure as Code)
 - AWS (EC2, VPC, IAM, ECR, S3, DynamoDB)
 - Docker
-- GitHub Actions
-- Linux (EC2 Ubuntu/Amazon Linux)
+- GitHub Actions (CI/CD)
+- Linux (Ubuntu EC2)
+- VS Code
 
-## Security
-
+🔐 Security Highlights
 - No AWS access keys stored in GitHub
-- Temporary credentials via OIDC
+- Secure authentication via OIDC
 - Least-privilege IAM roles
-- Isolated Terraform state backend
+- Remote state stored securely in S3 with locking
+
+Terraform File Structure:
+
+AWS-CICD-CONTAINER-PIPELINE/
+│
+├── backend/
+│   ├── .terraform.lock.hcl
+│   ├── bootstrap.tf
+│   ├── providers.tf
+│   ├── terraform.tfstate
+│   └── terraform.tfstate.backup
+│
+├── docker-app/
+│   ├── Dockerfile
+│   └── index.html
+│
+├── images/
+│   └── project-architecture.jpg
+│
+├── terraform/
+│   ├── .terraform/
+│   │
+│   ├── modules/
+│   │   ├── ec2/
+│   │   │   ├── main.tf
+│   │   │   ├── outputs.tf
+│   │   │   ├── user-data.sh
+│   │   │   └── variables.tf
+│   │   │
+│   │   ├── security_groups/
+│   │   │   ├── main.tf
+│   │   │   ├── outputs.tf
+│   │   │   └── variables.tf
+│   │   │
+│   │   ├── subnets/
+│   │   │   ├── main.tf
+│   │   │   ├── outputs.tf
+│   │   │   └── variables.tf
+│   │   │
+│   │   └── vpc/
+│   │       ├── main.tf
+│   │       ├── outputs.tf
+│   │       └── variables.tf
+│   │
+│   ├── .terraform.lock.hcl
+│   ├── main.tf
+│   ├── outputs.tf
+│   ├── providers.tf
+│   ├── terraform.tfvars
+│   └── variables.tf
+│
+├── .gitignore
+└── README.md
+
+The project is ongoing and will b
+

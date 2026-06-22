@@ -1,6 +1,6 @@
 # GitHub Actions CI/CD pipeline: Build, Push, and Deploy Docker application to AWS EC2 via ECR
 
-name: Deploy to EC2 via ECR
+name: CI/CD - Build, Push to ECR & Deploy to EC2
 
 on:
   workflow_dispatch:
@@ -56,7 +56,7 @@ jobs:
         run: |
           docker push ${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:$IMAGE_TAG
 
-      # Deploy updated application to EC2 via SSH (GitHub Actions SSHs into EC2 instance)
+      # Deploy updated application to EC2 via SSH. GitHub Actions uses SSH as a remote execution channel to run deployment commands on EC2
       - name: Deploy on EC2
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -64,7 +64,8 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            # Authenticate EC2 Docker client to Amazon ECR using IAM role credentials
+            # Authenticate EC2 Docker client to Amazon ECR
+            # Uses AWS CLI to generate temporary ECR login token via EC2 IAM role
             aws ecr get-login-password --region ${{ secrets.AWS_REGION }} \
               | docker login --username AWS --password-stdin ${{ steps.login-ecr.outputs.registry }}
 
