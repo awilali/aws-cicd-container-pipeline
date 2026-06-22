@@ -47,56 +47,25 @@ It showcases real-world DevOps practices including Infrastructure as Code, conta
 
 Terraform File Structure:
 
+'''
 AWS-CICD-CONTAINER-PIPELINE/
 │
-├── backend/
-│   ├── .terraform.lock.hcl
-│   ├── bootstrap.tf
-│   ├── providers.tf
-│   ├── terraform.tfstate
-│   └── terraform.tfstate.backup
-│
-├── docker-app/
-│   ├── Dockerfile
-│   └── index.html
-│
-├── images/
-│   └── project-architecture.jpg
-│
+├── backend/                 # Terraform remote state bootstrap
+├── docker-app/              # Containerized application
+├── images/                  # Architecture diagrams
 ├── terraform/
-│   ├── .terraform/
-│   │
 │   ├── modules/
-│   │   ├── ec2/
-│   │   │   ├── main.tf
-│   │   │   ├── outputs.tf
-│   │   │   ├── user-data.sh
-│   │   │   └── variables.tf
-│   │   │
-│   │   ├── security_groups/
-│   │   │   ├── main.tf
-│   │   │   ├── outputs.tf
-│   │   │   └── variables.tf
-│   │   │
+│   │   ├── vpc/
 │   │   ├── subnets/
-│   │   │   ├── main.tf
-│   │   │   ├── outputs.tf
-│   │   │   └── variables.tf
-│   │   │
-│   │   └── vpc/
-│   │       ├── main.tf
-│   │       ├── outputs.tf
-│   │       └── variables.tf
-│   │
-│   ├── .terraform.lock.hcl
+│   │   ├── security_groups/
+│   │   └── ec2/
 │   ├── main.tf
-│   ├── outputs.tf
-│   ├── providers.tf
-│   ├── terraform.tfvars
-│   └── variables.tf
+│   ├── variables.tf
+│   └── outputs.tf
 │
+├── .github/workflows/       # CI/CD pipeline
 ├── .gitignore
 └── README.md
+'''
 
-The project is ongoing and will b
 
