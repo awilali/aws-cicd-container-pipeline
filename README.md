@@ -47,7 +47,7 @@ It showcases real-world DevOps practices including Infrastructure as Code, conta
 
 Terraform File Structure:
 
-'''
+'''text
 AWS-CICD-CONTAINER-PIPELINE/
 │
 ├── backend/                 # Terraform remote state bootstrap
