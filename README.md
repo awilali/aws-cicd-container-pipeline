@@ -47,7 +47,7 @@ It showcases real-world DevOps practices including Infrastructure as Code, conta
 
 Terraform File Structure:
 
-'''text
+```text
 AWS-CICD-CONTAINER-PIPELINE/
 │
 ├── backend/                 # Terraform remote state bootstrap
@@ -66,6 +66,6 @@ AWS-CICD-CONTAINER-PIPELINE/
 ├── .github/workflows/       # CI/CD pipeline
 ├── .gitignore
 └── README.md
-'''
+```
 
 
