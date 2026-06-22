@@ -1,4 +1,5 @@
-#
+# GitHub Actions CI/CD pipeline: Build, Push, and Deploy Docker application to AWS EC2 via ECR
+
 name: Deploy to EC2 via ECR
 
 on:
@@ -7,11 +8,12 @@ on:
     branches: ["main"]
     paths: ["docker-app/**"]
 
-    # This block uses the below 'role-to-assume' which  OIDC and repository access.
+    # Enables GitHub OIDC authentication with AWS (no static credentials required)
 permissions:
   id-token: write # allows GitHub to generate OIDC token for AWS login
   contents: read # allows workflow to access your repo code
 
+# these variables are used in the 'build image' step to provide value to the env vars.
 env:
   ECR_REPOSITORY: my-app
   IMAGE_TAG: latest
@@ -21,38 +23,40 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout repository source code
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 1. Configure AWS credentials
+      # Configure AWS credentials using GitHub OIDC → IAM Role assumption
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::565393030819:role/Github-Actions
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      # 2. Login to ECR
+      # EC2 uses IAM role credentials to generate a temporary ECR auth token via AWS CLI
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      # 3. Build image
+      # Build image - This step builds Docker image from the app code stored in "./docker-app" folder.
+      # Reads the Dockerfile, downloads base image (nginx), runs each instruction in the dockerfile (COPY) and produces image
       - name: Build Docker image
         run: |
           docker build -t $ECR_REPOSITORY:$IMAGE_TAG ./docker-app
 
-      # 4. Tag image for ECR
+      # Tag image for ECR - use the values in the variables above to tag the image
       - name: Tag image
         run: |
           docker tag $ECR_REPOSITORY:$IMAGE_TAG \
           ${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:$IMAGE_TAG
 
-      # 5. Push to ECR
+      # Push Docker image to Amazon ECR repository
       - name: Push image to ECR
         run: |
           docker push ${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:$IMAGE_TAG
 
-      # 6. SSH into EC2 and pull new image
+      # Deploy updated application to EC2 via SSH (GitHub Actions SSHs into EC2 instance)
       - name: Deploy on EC2
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -60,14 +64,20 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            # Authenticate EC2 Docker client to Amazon ECR using IAM role credentials
             aws ecr get-login-password --region ${{ secrets.AWS_REGION }} \
               | docker login --username AWS --password-stdin ${{ steps.login-ecr.outputs.registry }}
 
+            # Pull latest container image from ECR
             docker pull ${{ steps.login-ecr.outputs.registry }}/my-app:latest
 
-            docker container stop my-app || true
+            # Stop running container if it exists (ignore errors if not running)
+            docker container stop my-app || true  
+
+            # Remove old container before recreating
             docker container rm my-app || true
 
+            # Run updated container in detached mode and expose port 80
             docker container run -d \
               --name my-app \
               -p 80:80 \

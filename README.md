@@ -1,6 +1,4 @@
-DEVELOPER --> Github --> Github Actions (CICD) --> OIDC verification --> AWS (ECR, ECR,S3)
-
-## Architecture Diagram
+## Project Architecture Diagram
 
 ![Architecture Diagram](images/project-architecture.jpg)
 
