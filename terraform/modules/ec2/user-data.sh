@@ -22,7 +22,6 @@ usermod -aG docker ubuntu
 
 apt-get install -y awscli
 
-# verify
-
+# verify installation
 docker --version
 aws --version

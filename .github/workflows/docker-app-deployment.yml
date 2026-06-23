@@ -5,7 +5,9 @@ name: CI/CD - Build, Push to ECR & Deploy to EC2
 on:
   workflow_dispatch:
   push:
-    branches: ["main"]
+    branches:
+      - "main"
+      - "developer"
     paths: ["docker-app/**"]
 
     # Enables GitHub OIDC authentication with AWS (no static credentials required)
