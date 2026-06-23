@@ -21,3 +21,7 @@ output "private_subnet_1_id" {
 output "private_subnet_2_id" {
   value = module.subnets.private_subnet_2_id
 }
+
+output "instance_id" {
+  value = module.ec2.instance_id
+}

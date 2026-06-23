@@ -34,7 +34,7 @@ jobs:
           role-to-assume: ${{ vars.AWS_ROLE_ARN }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      # EC2 uses IAM role credentials to generate a temporary ECR auth token via AWS CLI
+      # GitHub Actions assumes AWS IAM role using OIDC (no static AWS keys)
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
@@ -56,30 +56,16 @@ jobs:
         run: |
           docker push ${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:$IMAGE_TAG
 
-      # Deploy updated application to EC2 via SSH. GitHub Actions uses SSH as a remote execution channel to run deployment commands on EC2
-      - name: Deploy on EC2
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ubuntu
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            # Authenticate EC2 Docker client to Amazon ECR
-            # Uses AWS CLI to generate temporary ECR login token via EC2 IAM role
-            aws ecr get-login-password --region ${{ secrets.AWS_REGION }} \
-              | docker login --username AWS --password-stdin ${{ steps.login-ecr.outputs.registry }}
-
-            # Pull latest container image from ECR
-            docker pull ${{ steps.login-ecr.outputs.registry }}/my-app:latest
-
-            # Stop running container if it exists (ignore errors if not running)
-            docker container stop my-app || true  
-
-            # Remove old container before recreating
-            docker container rm my-app || true
-
-            # Run updated container in detached mode and expose port 80
-            docker container run -d \
-              --name my-app \
-              -p 80:80 \
-              ${{ steps.login-ecr.outputs.registry }}/my-app:latest
+      # Deploy via ssm
+      - name: Deploy via SSM
+        run: |
+          aws ssm send-command \
+            --instance-ids "${{ secrets.EC2_INSTANCE_ID }}" \
+            --document-name "AWS-RunShellScript" \
+            --parameters 'commands=[
+              "aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ steps.login-ecr.outputs.registry }}",
+              "docker pull ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}",
+              "docker container stop my-app || true",
+              "docker container rm my-app || true",  
+              "docker container run -d --name my-app -p 80:80 ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}"
+              ]'
