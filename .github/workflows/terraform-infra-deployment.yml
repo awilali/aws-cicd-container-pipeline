@@ -3,7 +3,9 @@ name: Terraform Infrastructure Pipeline
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches:
+      - "main"
+      - "developer"
     paths: ["terraform/**"]
 
   pull_request:
@@ -52,7 +54,7 @@ jobs:
   deploy:
     name: Terraform Apply
     needs: plan
-    if: github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
     defaults:
@@ -70,7 +72,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::565393030819:role/Github-Actions
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Terraform Init
@@ -78,8 +80,3 @@ jobs:
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
-
-      # - name: Show EC2 Public IP
-      #   run: terraform output ec2_public_ip
-
-      #
