@@ -12,7 +12,7 @@ terraform {
     bucket       = "devops-project-s3bucket-eleanor"
     key          = "terraform.tfstate"
     region       = "us-east-2"
-    use_lockfile = true //test this iA
+    use_lockfile = true
 
     encrypt = true
   }
