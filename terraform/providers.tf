@@ -7,7 +7,6 @@ terraform {
   }
 
   # backend code
-
   backend "s3" {
     bucket       = "devops-project-s3bucket-eleanor"
     key          = "terraform.tfstate"
