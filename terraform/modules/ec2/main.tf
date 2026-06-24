@@ -1,10 +1,11 @@
+#EC2
 resource "aws_instance" "ec2_public_1" {
   ami                    = "ami-0e5497a77ef21b5ac"
   instance_type          = "t2.micro"
   subnet_id              = var.public_subnet_1_id
   vpc_security_group_ids = [var.security_group_id]
-  key_name               = var.key_pair_name #ssh key will be removed
-  iam_instance_profile   = aws_iam_instance_profile.ec2_profile.name
+  #key_name               = var.key_pair_name #ssh key will be removed
+  iam_instance_profile = aws_iam_instance_profile.ec2_profile.name
 
 
   user_data = file("${path.module}/user-data.sh")

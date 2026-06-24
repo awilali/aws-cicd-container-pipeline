@@ -1,3 +1,8 @@
+
+# variable "ec2_name" {
+#   type = string
+# }
+
 variable "public_subnet_1_id" {
   description = "Public subnet 1 ID"
   type        = string

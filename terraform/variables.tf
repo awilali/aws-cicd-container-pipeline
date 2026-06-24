@@ -14,3 +14,7 @@ variable "environment" {
   type        = string
   default     = "dev"
 }
+
+# variable "ec2_name" {
+#   type = string
+# }
