@@ -9,11 +9,12 @@ terraform {
   # backend code
 
   backend "s3" {
-    bucket         = "devops-project-s3bucket-eleanor"
-    key            = "terraform.tfstate"
-    region         = "us-east-2"
-    dynamodb_table = "ops-terraform-lock"
-    encrypt        = true
+    bucket       = "devops-project-s3bucket-eleanor"
+    key          = "terraform.tfstate"
+    region       = "us-east-2"
+    use_lockfile = true //test this iA
+
+    encrypt = true
   }
 }
 
