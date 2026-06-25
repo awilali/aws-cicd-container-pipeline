@@ -65,8 +65,7 @@ resource "aws_ecr_repository" "app" {
   image_tag_mutability = "MUTABLE"
 }
 
-# ECR Life cycle policy
-# This prevents ECR from filling up with old images.
+# ECR Life cycle policy - This prevents ECR from filling up with old images.
 
 resource "aws_ecr_lifecycle_policy" "app" {
   repository = aws_ecr_repository.app.name
