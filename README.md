@@ -56,6 +56,12 @@ This project is split into two Terraform stages:
 
 The backend bootstraps the AWS environment required for Terraform infra and CI/CD.
 
+```text
+cd backend
+terraform init
+terraform apply
+```
+
 It creates:
 - S3 bucket for Terraform remote state & state locking
 - GitHub OIDC Identity Provider
