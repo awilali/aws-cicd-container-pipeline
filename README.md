@@ -47,27 +47,28 @@ It showcases real-world DevOps practices including Infrastructure as Code, conta
 - Least-privilege IAM roles
 - Remote state stored securely in S3 with locking
 
-```text
-## How to Run It
+## 🚀 How to Run It
 
-First, run the backend Terraform configuration to bootstrap the foundational AWS resources.
+This project is split into two Terraform stages:
 
-This includes:
-- S3 bucket for Terraform remote state
-- DynamoDB table (if used for state locking)
+1. **Backend Infrastructure (bootstrap layer)**
+2. **Main Infrastructure (application layer)**
+
+The backend bootstraps the AWS environment required for Terraform infra and CI/CD.
+
+It creates:
+- S3 bucket for Terraform remote state & state locking
 - GitHub OIDC Identity Provider
 - IAM role and policies for GitHub Actions authentication
 
-These resources must be created first before deploying the main infrastructure.
+Then deploy the main infrastructure:
 
-### Step 1: Initialize backend infrastructure
-
-Navigate to the backend folder:
-
-cd backend
+```bash
+cd ../terraform
 terraform init
 terraform apply
-```
+
+---
 
 Terraform File Structure:
 
