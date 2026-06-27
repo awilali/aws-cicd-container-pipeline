@@ -24,10 +24,43 @@ resource "aws_iam_role" "ec2_role" {
 }
 
 ## IAM Role policy Allows an EC2 instance to pull and read Docker images from Amazon ECR.
-resource "aws_iam_role_policy_attachment" "ecr_attach_ec2" {
-  role       = aws_iam_role.ec2_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+# resource "aws_iam_role_policy_attachment" "ecr_attach_ec2" {
+#   role       = aws_iam_role.ec2_role.name
+#   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+# }
+
+
+resource "aws_iam_role_policy" "ecr_inline_policy" {
+  name = "ec2-ecr-readonly-inline"
+  role = aws_iam_role.ec2_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      # Authenticate with ECR
+      {
+        Effect = "Allow"
+        Action = [
+          "ecr:GetAuthorizationToken"
+        ]
+        Resource = "*"
+      },
+
+      # Pull images from ECR
+      {
+        Effect = "Allow"
+        Action = [
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:BatchGetImage"
+        ]
+        Resource = "*"
+      }
+    ]
+  })
 }
+
+
 
 ## Allows an EC2 instance to be managed by AWS Systems Manager (SSM).
 resource "aws_iam_role_policy_attachment" "ssm_attach_ec2" {
