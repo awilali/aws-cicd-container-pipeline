@@ -66,8 +66,15 @@ resource "aws_iam_role" "github_actions_role" {
         Action = "sts:AssumeRoleWithWebIdentity"
 
         Condition = {
+          StringEquals = {
+            "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
+          }
+
           StringLike = {
-            "token.actions.githubusercontent.com:sub" = "repo:awilali/aws-cicd-container-pipeline:*"
+            "token.actions.githubusercontent.com:sub" = [
+              "repo:awilali/aws-cicd-container-pipeline:ref:refs/heads/main",
+              "repo:awilali/aws-cicd-container-pipeline:pull_request"
+            ]
           }
         }
       }
