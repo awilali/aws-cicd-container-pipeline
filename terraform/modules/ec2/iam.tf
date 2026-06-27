@@ -67,7 +67,7 @@ resource "aws_iam_role" "github_actions_role" {
 
         Condition = {
           StringLike = {
-            "token.actions.githubusercontent.com:sub" = "repo:github.com/awilali:*"
+            "token.actions.githubusercontent.com:sub" = "repo:awilali/aws-cicd-container-pipeline:*"
           }
         }
       }
