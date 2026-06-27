@@ -16,6 +16,10 @@ resource "aws_instance" "ec2_public_1" {
   }
 }
 
+# tags = {
+#   Name = "my-app-ec2"
+#   Environment = var.environment
+# }
 
 ## ECR Resource
 resource "aws_ecr_repository" "app" {
