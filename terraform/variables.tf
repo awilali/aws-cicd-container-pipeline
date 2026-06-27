@@ -10,10 +10,10 @@ variable "environment" {
   default     = "dev"
 }
 
-variable "key_pair_name" {
-  description = "Name of your existing AWS key pair"
-  type        = string
-}
+# variable "key_pair_name" {
+#   description = "Name of your existing AWS key pair"
+#   type        = string
+# }
 
 # variable "ec2_name" {
 #   type = string

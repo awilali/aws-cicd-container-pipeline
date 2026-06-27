@@ -21,6 +21,6 @@ module "ec2-ecr" {
   public_subnet_1_id = module.subnets.public_subnet_1_id
   public_subnet_2_id = module.subnets.public_subnet_2_id
   security_group_id  = module.security_groups.ec2_sg_id
-  key_pair_name      = var.key_pair_name
-  environment        = var.environment
+  # key_pair_name      = var.key_pair_name
+  environment = var.environment
 }

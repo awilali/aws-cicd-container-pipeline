@@ -18,10 +18,10 @@ variable "security_group_id" {
   type        = string
 }
 
-variable "key_pair_name" {
-  description = "AWS key pair name"
-  type        = string
-}
+# variable "key_pair_name" {
+#   description = "AWS key pair name"
+#   type        = string
+# }
 
 variable "environment" {
   description = "Environment name"
