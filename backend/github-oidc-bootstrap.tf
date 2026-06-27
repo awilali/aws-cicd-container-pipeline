@@ -45,162 +45,188 @@ resource "aws_iam_role" "github_actions_role" {
   })
 }
 
-## OIDC policy attachment
-resource "aws_iam_role_policy_attachment" "ssm_github_ec2_attach" {
+
+resource "aws_iam_role_policy_attachment" "github_ec2_full" {
   role       = aws_iam_role.github_actions_role.name
-  policy_arn = aws_iam_policy.ssm_github_ec2_deploy_policy.arn
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2FullAccess"
 }
 
-## OIDC created policy
-resource "aws_iam_policy" "ssm_github_ec2_deploy_policy" {
-  name = "ssm-github-ec2-deploy-policy"
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Action = [
-          "ssm:SendCommand",
-          "ssm:GetCommandInvocation",
-          "ssm:ListCommandInvocations"
-        ]
-        Resource = "*"
-      },
-      {
-        Effect = "Allow"
-        Action = [
-          "ec2:DescribeInstances"
-        ]
-        Resource = "*"
-      }
-    ]
-  })
-}
-
-resource "aws_iam_role_policy_attachment" "ecr_push_attach" {
+resource "aws_iam_role_policy_attachment" "github_ecr_full" {
   role       = aws_iam_role.github_actions_role.name
-  policy_arn = aws_iam_policy.github_ecr_push.arn
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess"
 }
 
-resource "aws_iam_policy" "github_ecr_push" {
-  name = "github-ecr-push-my-app"
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Action = [
-          "ecr:GetAuthorizationToken"
-        ]
-        Resource = "*"
-      },
-      {
-        Effect = "Allow"
-        Action = [
-          "ecr:BatchCheckLayerAvailability",
-          "ecr:InitiateLayerUpload",
-          "ecr:UploadLayerPart",
-          "ecr:CompleteLayerUpload",
-          "ecr:PutImage",
-          "ecr:BatchGetImage",
-          "ecr:GetDownloadUrlForLayer",
-          "ecr:DescribeRepositories",
-          "ecr:GetAuthorizationToken",
-        ]
-        Resource = "arn:aws:ecr:us-east-2:123456789012:repository/my-app"
-      }
-    ]
-  })
-}
-
-##
-resource "aws_iam_role_policy_attachment" "ec2_deploy_attach" {
+resource "aws_iam_role_policy_attachment" "github_iam_full" {
   role       = aws_iam_role.github_actions_role.name
-  policy_arn = aws_iam_policy.github_ec2_deploy.arn
+  policy_arn = "arn:aws:iam::aws:policy/IAMFullAccess"
 }
 
-##
-resource "aws_iam_policy" "github_ec2_deploy" {
-  name = "github-ec2-deploy"
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Action = [
-          "ec2:DescribeInstances",
-          "ec2:DescribeInstanceStatus",
-          "ec2:DescribeTags",
-          "ec2:DescribeVpcs",
-          "ec2:DescribeInstances",
-          "ec2:DescribeInstanceStatus",
-          "ec2:DescribeTags",
-          "ec2:DescribeVpcs",
-          "ec2:DescribeSubnets",
-          "ec2:DescribeSecurityGroups"
-        ]
-        Resource = "*"
-      }
-    ]
-  })
-}
-
-## IAM OIDC - What is GitHub Actions allowed to do in AWS
-resource "aws_iam_role_policy" "iam_terraform_access" {
-  name = "iam-terraform-access"
-  role = aws_iam_role.github_actions_role.name
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Action = [
-          "iam:CreateRole",
-          "iam:GetRole",
-          "iam:ListRoles",
-          "iam:PassRole",
-          "iam:GetRole",
-
-        ]
-        Resource = "*"
-      }
-    ]
-  })
-}
-
-## S3 bucket - policy below is attached to it
-resource "aws_iam_role_policy_attachment" "tf_github_s3" {
+resource "aws_iam_role_policy_attachment" "github_ssm" {
   role       = aws_iam_role.github_actions_role.name
-  policy_arn = aws_iam_policy.terraform_state_s3.arn
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMFullAccess"
 }
 
-## S3 bucket - custom policy
-resource "aws_iam_policy" "terraform_state_s3" {
-  name = "terraform-state-s3"
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Action = [
-          "s3:ListBucket"
-        ]
-        Resource = "arn:aws:s3:::devops-project-s3bucket-eleanor"
-      },
-      {
-        Effect = "Allow"
-        Action = [
-          "s3:GetObject",
-          "s3:PutObject",
-          "s3:DeleteObject"
-        ]
-        Resource = "arn:aws:s3:::devops-project-s3bucket-eleanor/*"
-      }
-    ]
-  })
+resource "aws_iam_role_policy_attachment" "github_s3_full" {
+  role       = aws_iam_role.github_actions_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
 }
+
+# ## OIDC policy attachment
+# resource "aws_iam_role_policy_attachment" "ssm_github_ec2_attach" {
+#   role       = aws_iam_role.github_actions_role.name
+#   policy_arn = aws_iam_policy.ssm_github_ec2_deploy_policy.arn
+# }
+
+# ## OIDC created policy
+# resource "aws_iam_policy" "ssm_github_ec2_deploy_policy" {
+#   name = "ssm-github-ec2-deploy-policy"
+
+#   policy = jsonencode({
+#     Version = "2012-10-17"
+#     Statement = [
+#       {
+#         Effect = "Allow"
+#         Action = [
+#           "ssm:SendCommand",
+#           "ssm:GetCommandInvocation",
+#           "ssm:ListCommandInvocations"
+#         ]
+#         Resource = "*"
+#       },
+#       {
+#         Effect = "Allow"
+#         Action = [
+#           "ec2:DescribeInstances"
+#         ]
+#         Resource = "*"
+#       }
+#     ]
+#   })
+# }
+
+# resource "aws_iam_role_policy_attachment" "ecr_push_attach" {
+#   role       = aws_iam_role.github_actions_role.name
+#   policy_arn = aws_iam_policy.github_ecr_push.arn
+# }
+
+# resource "aws_iam_policy" "github_ecr_push" {
+#   name = "github-ecr-push-my-app"
+
+#   policy = jsonencode({
+#     Version = "2012-10-17"
+#     Statement = [
+#       {
+#         Effect = "Allow"
+#         Action = [
+#           "ecr:GetAuthorizationToken"
+#         ]
+#         Resource = "*"
+#       },
+#       {
+#         Effect = "Allow"
+#         Action = [
+#           "ecr:BatchCheckLayerAvailability",
+#           "ecr:InitiateLayerUpload",
+#           "ecr:UploadLayerPart",
+#           "ecr:CompleteLayerUpload",
+#           "ecr:PutImage",
+#           "ecr:BatchGetImage",
+#           "ecr:GetDownloadUrlForLayer",
+#           "ecr:DescribeRepositories",
+#           "ecr:GetAuthorizationToken",
+#         ]
+#         Resource = "arn:aws:ecr:us-east-2:123456789012:repository/my-app"
+#       }
+#     ]
+#   })
+# }
+
+# ##
+# resource "aws_iam_role_policy_attachment" "ec2_deploy_attach" {
+#   role       = aws_iam_role.github_actions_role.name
+#   policy_arn = aws_iam_policy.github_ec2_deploy.arn
+# }
+
+# ##
+# resource "aws_iam_policy" "github_ec2_deploy" {
+#   name = "github-ec2-deploy"
+
+#   policy = jsonencode({
+#     Version = "2012-10-17"
+#     Statement = [
+#       {
+#         Effect = "Allow"
+#         Action = [
+#           "ec2:DescribeInstances",
+#           "ec2:DescribeInstanceStatus",
+#           "ec2:DescribeTags",
+#           "ec2:DescribeVpcs",
+#           "ec2:DescribeInstances",
+#           "ec2:DescribeInstanceStatus",
+#           "ec2:DescribeTags",
+#           "ec2:DescribeVpcs",
+#           "ec2:DescribeSubnets",
+#           "ec2:DescribeSecurityGroups"
+#         ]
+#         Resource = "*"
+#       }
+#     ]
+#   })
+# }
+
+# ## IAM OIDC - What is GitHub Actions allowed to do in AWS
+# resource "aws_iam_role_policy" "iam_terraform_access" {
+#   name = "iam-terraform-access"
+#   role = aws_iam_role.github_actions_role.name
+
+#   policy = jsonencode({
+#     Version = "2012-10-17"
+#     Statement = [
+#       {
+#         Effect = "Allow"
+#         Action = [
+#           "iam:CreateRole",
+#           "iam:GetRole",
+#           "iam:ListRoles",
+#           "iam:PassRole",
+#           "iam:GetRole",
+
+#         ]
+#         Resource = "*"
+#       }
+#     ]
+#   })
+# }
+
+# ## S3 bucket - policy below is attached to it
+# resource "aws_iam_role_policy_attachment" "tf_github_s3" {
+#   role       = aws_iam_role.github_actions_role.name
+#   policy_arn = aws_iam_policy.terraform_state_s3.arn
+# }
+
+# ## S3 bucket - custom policy
+# resource "aws_iam_policy" "terraform_state_s3" {
+#   name = "terraform-state-s3"
+
+#   policy = jsonencode({
+#     Version = "2012-10-17"
+#     Statement = [
+#       {
+#         Effect = "Allow"
+#         Action = [
+#           "s3:ListBucket"
+#         ]
+#         Resource = "arn:aws:s3:::devops-project-s3bucket-eleanor"
+#       },
+#       {
+#         Effect = "Allow"
+#         Action = [
+#           "s3:GetObject",
+#           "s3:PutObject",
+#           "s3:DeleteObject"
+#         ]
+#         Resource = "arn:aws:s3:::devops-project-s3bucket-eleanor/*"
+#       }
+#     ]
+#   })
+# }
