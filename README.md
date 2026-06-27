@@ -63,7 +63,6 @@ It creates:
 
 Then deploy the main infrastructure:
 
-```bash
 cd ../terraform
 terraform init
 terraform apply
