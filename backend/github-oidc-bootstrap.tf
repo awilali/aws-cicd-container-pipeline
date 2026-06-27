@@ -1,4 +1,3 @@
-
 ## Github identity provider resource
 ## GitHub Actions → OIDC Provider → IAM Role → Policies
 
