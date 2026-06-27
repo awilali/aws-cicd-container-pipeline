@@ -1,5 +1,5 @@
 #EC2
-resource "aws_instance" "ec2_public_1" {
+resource "aws_instance" "ec2_public_1" { #ec2_public_1
   ami                    = "ami-0e5497a77ef21b5ac"
   instance_type          = "t2.micro"
   subnet_id              = var.public_subnet_1_id
@@ -11,7 +11,7 @@ resource "aws_instance" "ec2_public_1" {
   user_data = file("${path.module}/user-data.sh")
 
   tags = {
-    Name        = "devops-ec2-public-1"
+    Name        = "docker-ec2-server" #devops-ec2-public-1
     Environment = var.environment
   }
 }

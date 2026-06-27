@@ -63,7 +63,7 @@ jobs:
       - name: Deploy via SSM
         run: |
           aws ssm send-command \
-              --targets "Key=tag:Name,Values=devops-ec2-public-1" \
+              --targets "Key=tag:Name,Values=docker-ec2-server" \
               --document-name "AWS-RunShellScript" \
               --parameters 'commands=[
               "aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ steps.login-ecr.outputs.registry }}",
