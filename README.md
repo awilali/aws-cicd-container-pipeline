@@ -67,7 +67,6 @@ cd ../terraform
 terraform init
 terraform apply
 
----
 
 Terraform File Structure:
 
