@@ -7,7 +7,9 @@ on:
   push:
     branches:
       - "main"
-    paths: ["docker-app/**"]
+    paths:
+      - "docker-app/**"
+      - "docker-app-deployment.yml"
 
     # Enables GitHub OIDC authentication with AWS (no static credentials required)
 permissions:
