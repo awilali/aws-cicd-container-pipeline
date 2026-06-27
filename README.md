@@ -63,10 +63,12 @@ It creates:
 
 Then deploy the main infrastructure:
 
+```text
 cd ../terraform
 terraform init
 terraform apply
-
+```
+---
 
 Terraform File Structure:
 
