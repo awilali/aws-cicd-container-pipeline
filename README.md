@@ -47,6 +47,7 @@ It showcases real-world DevOps practices including Infrastructure as Code, conta
 - Least-privilege IAM roles
 - Remote state stored securely in S3 with locking
 
+```text
 ## How to Run It
 
 First, run the backend Terraform configuration to bootstrap the foundational AWS resources.
@@ -63,10 +64,10 @@ These resources must be created first before deploying the main infrastructure.
 
 Navigate to the backend folder:
 
-```bash
 cd backend
 terraform init
 terraform apply
+```
 
 Terraform File Structure:
 
