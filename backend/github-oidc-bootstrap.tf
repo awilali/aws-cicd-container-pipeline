@@ -105,7 +105,8 @@ resource "aws_iam_policy" "github_ecr_push" {
           "ecr:CompleteLayerUpload",
           "ecr:PutImage",
           "ecr:BatchGetImage",
-          "ecr:GetDownloadUrlForLayer"
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:DescribeRepositories",
         ]
         Resource = "arn:aws:ecr:us-east-2:123456789012:repository/my-app"
       }
@@ -131,7 +132,8 @@ resource "aws_iam_policy" "github_ec2_deploy" {
         Action = [
           "ec2:DescribeInstances",
           "ec2:DescribeInstanceStatus",
-          "ec2:DescribeTags"
+          "ec2:DescribeTags",
+          "ec2:DescribeVpcs",
         ]
         Resource = "*"
       }
@@ -151,9 +153,8 @@ resource "aws_iam_role_policy" "iam_terraform_access" {
         Effect = "Allow"
         Action = [
           "iam:CreateRole",
-          "iam:DeleteRole",
-          "iam:AttachRolePolicy",
-          "iam:PutRolePolicy",
+          "iam:GetRole",
+          "iam:ListRoles",
           "iam:PassRole"
         ]
         Resource = "*"
