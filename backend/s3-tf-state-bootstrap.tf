@@ -1,4 +1,4 @@
-# S3 Bucket resource
+# S3 Bucket resource that contains the tf state
 
 resource "aws_s3_bucket" "tf_state" {
   bucket        = "devops-project-s3bucket-eleanor"
