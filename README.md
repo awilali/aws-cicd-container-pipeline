@@ -99,7 +99,8 @@ AWS-CICD-CONTAINER-PIPELINE/
 └── README.md
 ```
 ```text
-The Terraform state file is a critical component of the infrastructure. In this setup, the backend bootstrap state (terraform.tfstate) is stored locally, while the main infrastructure state is stored in an S3 bucket with S3-based state locking enabled.
+The Terraform state file is a critical component of the infrastructure.
+In this setup, the backend bootstrap state (terraform.tfstate) is stored locally, while the main infrastructure state is stored in an S3 bucket with S3-based state locking enabled.
 
 ```
 
