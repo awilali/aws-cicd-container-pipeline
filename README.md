@@ -19,7 +19,7 @@ It showcases real-world DevOps practices including Infrastructure as Code, conta
 - Provisions EC2 instance
 - Sets up ECR repository
 - Configures IAM roles and policies
-- Stores Terraform state in S3 with DynamoDB locking
+- Terraform state and locking in S3
 
 2. CI/CD Pipeline (GitHub Actions)
 - Triggered on push to main
@@ -35,10 +35,10 @@ It showcases real-world DevOps practices including Infrastructure as Code, conta
 
 🧰 Tech Stack
 - Terraform (Infrastructure as Code)
-- AWS (EC2, VPC, IAM, ECR, S3, DynamoDB)
+- AWS (EC2, VPC, IAM, ECR, S3)
 - Docker
 - GitHub Actions (CI/CD)
-- Linux (Ubuntu EC2)
+- Linux
 - VS Code
 
 🔐 Security Highlights
