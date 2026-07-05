@@ -40,7 +40,7 @@ jobs:
         run: |
           echo "Checking for ECR repository..."
           for i in $(seq 1 20); do
-            if aws ecr describe-repositories --repository-names awil-web-app --region us-east-1 2>/dev/null; then
+            if aws ecr describe-repositories --repository-names my-app --region us-east-1 2>/dev/null; then
               echo "ECR repository found — continuing"
               exit 0
             fi
