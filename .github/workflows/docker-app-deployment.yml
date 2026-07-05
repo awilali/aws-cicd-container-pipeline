@@ -36,23 +36,24 @@ jobs:
           role-to-assume: arn:aws:iam::565393030819:role/Github-Actions-role
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Wait for ECR repository to exist
-        run: |
-          echo "Checking for ECR repository..."
+      # - name: Wait for ECR repository to exist
+      #   run: |
+      #     echo "Checking for ECR repository..."
           
-          for i in $(seq 1 5); do
-            if aws ecr describe-repositories --repository-names "$ECR_REPOSITORY" --region ${{ secrets.AWS_REGION }} >/dev/null 2>&1; then
+      #     for i in $(seq 1 5); do
+      #       if aws ecr describe-repositories --repository-names "$ECR_REPOSITORY" --region ${{ secrets.AWS_REGION }} >/dev/null 2>&1; 
+      #       then
             
-              echo "ECR repository found — continuing"
-              exit 0
-            fi
+      #         echo "ECR repository found — continuing"
+      #         exit 0
+      #       fi
             
-            echo "Attempt $i/5 — ECR not ready yet, waiting 30 seconds..."
-            sleep 30
-          done
+      #       echo "Attempt $i/5 — ECR not ready yet, waiting 30 seconds..."
+      #       sleep 30
+      #     done
           
-          echo "ECR repository not found after 3 minutes — failing"
-          exit 1
+      #     echo "ECR repository not found after 3 minutes — failing"
+      #     exit 1
 
       # GitHub Actions assumes AWS IAM role using OIDC (no static AWS keys)
       - name: Login to Amazon ECR
