@@ -40,18 +40,18 @@ jobs:
         run: |
           echo "Checking for ECR repository..."
           
-          for i in $(seq 1 20); do
+          for i in $(seq 1 5); do
             if aws ecr describe-repositories --repository-names "$ECR_REPOSITORY" --region ${{ secrets.AWS_REGION }} >/dev/null 2>&1; then
             
               echo "ECR repository found — continuing"
               exit 0
             fi
             
-            echo "Attempt $i/20 — ECR not ready yet, waiting 30 seconds..."
+            echo "Attempt $i/5 — ECR not ready yet, waiting 30 seconds..."
             sleep 30
           done
           
-          echo "ECR repository not found after 10 minutes — failing"
+          echo "ECR repository not found after 3 minutes — failing"
           exit 1
 
       # GitHub Actions assumes AWS IAM role using OIDC (no static AWS keys)
