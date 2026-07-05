@@ -7,13 +7,11 @@ on:
       - "main"
     paths:
       - "terraform/**"
-      - "terraform-infra-deployment.yml"
 
   pull_request:
     branches: [main]
     paths:
       - "terraform/**"
-      - "terraform-infra-deployment.yml"
 
 permissions:
   id-token: write

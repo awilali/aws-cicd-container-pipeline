@@ -9,7 +9,6 @@ on:
       - "main"
     paths:
       - "docker-app/**"
-      - "docker-app-deployment.yml"
 
     # Enables GitHub OIDC authentication with AWS (no static credentials required)
 permissions:
@@ -36,6 +35,20 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::565393030819:role/Github-Actions-role
           aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Wait for ECR repository to exist
+        run: |
+          echo "Checking for ECR repository..."
+          for i in $(seq 1 20); do
+            if aws ecr describe-repositories --repository-names awil-web-app --region us-east-1 2>/dev/null; then
+              echo "ECR repository found — continuing"
+              exit 0
+            fi
+            echo "Attempt $i/20 — ECR not ready yet, waiting 30 seconds..."
+            sleep 30
+          done
+          echo "ECR repository not found after 10 minutes — exiting"
+          exit 1
 
       # GitHub Actions assumes AWS IAM role using OIDC (no static AWS keys)
       - name: Login to Amazon ECR
