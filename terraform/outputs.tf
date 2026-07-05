@@ -10,10 +10,6 @@ output "instance_id" {
   value = module.ec2-ecr.instance_id
 }
 
-# output "ec2_name" {
-#   value = module.ec2.ec2_name
-# }
-
 output "public_subnet_1_id" {
   value = module.subnets.public_subnet_1_id
 }
