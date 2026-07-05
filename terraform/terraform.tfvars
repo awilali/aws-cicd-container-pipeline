@@ -1,5 +1,4 @@
 # Variables values
-region = "us-east-2"
-#key_pair_name = "key_ec2"
+region      = "us-east-2"
 environment = "dev"
 # ec2_name      = "prod-docker-server"
