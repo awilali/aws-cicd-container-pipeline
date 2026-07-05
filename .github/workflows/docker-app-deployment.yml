@@ -48,7 +48,7 @@ jobs:
       #       sleep 30
       #     done
       #     echo "ECR repository not found after 10 minutes — exiting"
-          exit 1
+      #   exit 1
 
       # GitHub Actions assumes AWS IAM role using OIDC (no static AWS keys)
       - name: Login to Amazon ECR
