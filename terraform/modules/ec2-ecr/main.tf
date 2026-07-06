@@ -4,8 +4,7 @@ resource "aws_instance" "ec2_public_1" { #ec2_public_1
   instance_type          = "t2.micro"
   subnet_id              = var.public_subnet_1_id
   vpc_security_group_ids = [var.security_group_id]
-  #key_name               = var.key_pair_name #ssh key will be removed
-  iam_instance_profile = aws_iam_instance_profile.ec2_profile.name
+  iam_instance_profile   = aws_iam_instance_profile.ec2_profile.name
 
 
   user_data = file("${path.module}/user-data.sh")
@@ -15,11 +14,6 @@ resource "aws_instance" "ec2_public_1" { #ec2_public_1
     Environment = var.environment
   }
 }
-
-# tags = {
-#   Name = "my-app-ec2"
-#   Environment = var.environment
-# }
 
 ## ECR Resource
 resource "aws_ecr_repository" "app" {

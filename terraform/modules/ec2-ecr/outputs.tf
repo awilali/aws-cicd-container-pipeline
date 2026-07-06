@@ -9,7 +9,3 @@ output "ecr_repository_url" {
 output "instance_id" {
   value = aws_instance.ec2_public_1.id
 }
-
-# output "ec2_name" {
-#   value = aws_instance.prod-docker-server
-# }
