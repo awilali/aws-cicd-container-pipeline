@@ -79,16 +79,16 @@ jobs:
           
       - name: Deploy via SSM
         run: |
-          aws ssm send-command \
-              --targets "Key=tag:Name,Values=docker-ec2-server" \
-              --document-name "AWS-RunShellScript" \
-              --parameters 'commands=[
-              "aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ steps.login-ecr.outputs.registry }}",
-              "docker pull ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}",
-              "docker container stop my-app || true",
-              "docker container rm my-app || true",  
-              "docker container run -d --name my-app -p 80:80 ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}"
-              ]'
+           aws ssm send-command \
+            --targets "Key=tag:Name,Values=docker-ec2-server" \
+            --document-name "AWS-RunShellScript" \
+            --parameters "commands=[
+              \"aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ steps.login-ecr.outputs.registry }}\",
+              \"docker pull ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}\",
+              \"docker container stop my-app || true\",
+              \"docker container rm my-app || true\",
+              \"docker container run -d --name my-app -p 80:80 ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}\"
+            ]"
 
 # Deploy via ssm
       # - name: Deploy via SSM
