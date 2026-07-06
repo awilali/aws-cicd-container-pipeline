@@ -1,27 +1,31 @@
 #!/bin/bash
+set -e
 
 apt update -y
-apt upgrade -y
 
-# Install SSM Agent (if not already present)
+apt install -y snapd
+
+# SSM Agent
 snap install amazon-ssm-agent --classic
-
 systemctl enable snap.amazon-ssm-agent.amazon-ssm-agent.service
 systemctl start snap.amazon-ssm-agent.amazon-ssm-agent.service
 
-# Install Docker
+# Docker
 apt install -y docker.io
-
-# Start Docker
 systemctl enable docker
 systemctl start docker
 
-usermod -aG docker ubuntu
+# REAL Docker readiness gate
+until docker info >/dev/null 2>&1; do
+  echo "Waiting for Docker..."
+  sleep 2
+done
 
-# AWS CLI installation
+# AWS CLI
+apt install -y awscli
 
-apt-get install -y awscli
+# Real validation
+aws sts get-caller-identity
 
-# verify installation
-docker --version
-aws --version
+# FINAL READY SIGNAL
+touch /var/lib/cloud/instance/user-data-finished
