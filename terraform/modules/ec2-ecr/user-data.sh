@@ -15,20 +15,20 @@ apt install -y docker.io
 systemctl enable docker
 systemctl start docker
 
-REAL Docker readiness gate
-until docker info >/dev/null 2>&1; do
-  echo "Waiting for Docker..."
-  sleep 2
-done
+# REAL Docker readiness gate
+# until docker info >/dev/null 2>&1; do
+#   echo "Waiting for Docker..."
+#   sleep 2
+# done
 
 # AWS CLI
 apt install -y awscli
 
 # Wait for AWS
-until aws sts get-caller-identity >/dev/null 2>&1; do
-  echo "Waiting for AWS..."
-  sleep 2
-done
+# until aws sts get-caller-identity >/dev/null 2>&1; do
+#   echo "Waiting for AWS..."
+#   sleep 2
+# done
 
 # Real validation
 aws sts get-caller-identity
