@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+#set -e
 
 apt update -y
 
@@ -16,10 +16,10 @@ systemctl enable docker
 systemctl start docker
 
 # REAL Docker readiness gate
-until docker info >/dev/null 2>&1; do
-  echo "Waiting for Docker..."
-  sleep 2
-done
+# until docker info >/dev/null 2>&1; do
+#   echo "Waiting for Docker..."
+#   sleep 2
+# done
 
 # AWS CLI
 apt install -y awscli
