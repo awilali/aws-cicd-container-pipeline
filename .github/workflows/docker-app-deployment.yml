@@ -83,11 +83,11 @@ jobs:
             --targets "Key=tag:Name,Values=docker-ec2-server" \
             --document-name "AWS-RunShellScript" \
             --parameters "commands=[
-              \"aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ steps.login-ecr.outputs.registry }}\",
-              \"docker pull ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}\",
-              \"docker container stop my-app || true\",
-              \"docker container rm my-app || true\",
-              \"docker container run -d --name my-app -p 80:80 ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}\"
+            \"until docker info >/dev/null 2>&1; do echo waiting for docker; sleep 2; done\",
+            \"aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ steps.login-ecr.outputs.registry }}\",
+            \"docker pull ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}\",
+            \"docker container inspect my-app >/dev/null 2>&1 && docker container stop my-app && docker container rm my-app || true\",
+            \"docker container run -d --name my-app -p 80:80 ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}\"
             ]"
 
 # Deploy via ssm
