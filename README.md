@@ -74,6 +74,9 @@ cd ../terraform
 terraform init
 terraform apply
 ```
+
+When you're destroying the project, make sure to destroy the main Terraform Infrastructure first.
+
 ---
 
 Terraform File Structure:
