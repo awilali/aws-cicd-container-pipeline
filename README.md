@@ -34,7 +34,7 @@ It showcases real-world DevOps practices including Infrastructure as Code, conta
 ```
 
 🧰 Tech Stack
-- Terraform (Infrastructure as Code)
+- Terraform (IaC - Infrastructure as Code)
 - AWS (EC2, VPC, IAM, ECR, S3)
 - Docker
 - GitHub Actions (CI/CD)
