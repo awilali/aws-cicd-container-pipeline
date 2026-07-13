@@ -2,15 +2,15 @@
 
 ![Architecture Diagram](images/project-architecture.jpg)
 
-# CI/CD Pipeline for Containerized App on AWS EC2 using Terraform & GitHub Actions
+# CI/CD Pipeline for Containerised App on AWS EC2 using Terraform & GitHub Actions
 
 The system automates infrastructure provisioning and application deployment from GitHub to AWS using Terraform and GitHub Actions.
 
 ## Overview
 
-This project demonstrates a fully automated CI/CD pipeline deploying a Dockerized application to AWS EC2 using Terraform and GitHub Actions with secure OIDC authentication (no long-lived credentials).
+This project demonstrates a fully automated CI/CD pipeline deploying a Dockerised application to AWS EC2 using Terraform and GitHub Actions with secure OIDC authentication (no long-lived credentials).
 
-It showcases real-world DevOps practices including Infrastructure as Code, containerization, and secure cloud deployment workflows.
+It showcases real-world DevOps practices including Infrastructure as Code, containerisation, and secure cloud deployment workflows.
 
 ```text
 ⚙️ How It Works
